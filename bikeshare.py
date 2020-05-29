@@ -5,7 +5,7 @@ import numpy as np
 CITY_DATA = {'chicago': 'chicago.csv',
              'new york city': 'new_york_city.csv',
              'washington': 'washington.csv'}
-             
+
 MONTHS = ['january', 'february', 'march', 'april', 'may', 'june']
 DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
 
@@ -28,7 +28,7 @@ def get_city():
             print("\nI'm sorry, your city is not in this list.")
             continue
     return city
-    
+
 def get_month():
     """
     Asks the user which months they would like to filter with.
@@ -44,10 +44,10 @@ def get_month():
             month = MONTHS[int(month) - 1]
             break
         else:
-            print("I'm sorry, the month you picked is not in this list. Please pick from the above list.")
+            print("I'm sorry, the month you picked is not in this list.")
             continue
     return month
-    
+
 def get_day():
     """
     Asks the user which day they would like to filter with.
@@ -63,10 +63,10 @@ def get_day():
             day = DAYS[int(day) - 1]
             break
         else:
-            print("I'm sorry, the day you picked is not in this list. Please pick from the above list.")
+            print("I'm sorry, the day you picked is not in this list.")
             continue
     return day
-    
+
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
@@ -79,17 +79,17 @@ def get_filters():
     #  HINT: Use a while loop to handle invalid inputs
     print ('='*90)
     print('\nHello! Let\'s explore some US bikeshare data!\n')
-    
+
     city = get_city()
-    
+
     # get user input for month (all, january, february, ... , june)
     month = get_month()
-    
+
     # get user input for day of week (all, monday, tuesday, ... sunday)
     day = get_day()
-    
+
     return city, month, day
-    
+
 def question_divider(start_time):
     """
     Function to print out the processing time.
@@ -103,12 +103,12 @@ def summary (city, month, day, df):
     Displays the choices made for city, month and day by the user
     """
     start_time = time.time()
-    
+
     print('\nYou have selected the following:')
     print('City:    ', city.title())
     print('Month:   ', month.title())
     print('Day:     ', day.title())
-    
+
 def load_data(city, month, day):
     """
     Loads data for the specified city and filters by month and day if applicable.
@@ -121,37 +121,36 @@ def load_data(city, month, day):
         df - Pandas DataFrame containing city data filtered by month and day
     """
     start_time = time.time()
-    
+
     #load data onto DataFrame
     df = pd.read_csv(CITY_DATA[city])
-    
+
     #convert the Start Time column to date time
     df['Start Time'] = pd.to_datetime(df['Start Time'])
-    
+
     #extract month, day of week and hour from Start Time to create new columns
     df['month'] = df['Start Time'].dt.month
     df['day_of_week'] = df['Start Time'].dt.weekday
     df['hour'] = df['Start Time'].dt.hour
-    
+
     #apply the filter for month
     if month != 'all':
         month_i = MONTHS.index(month) + 1
         df = df[df.month == month_i]
         month = month.title()
-        
+
     #apply the filter for day
     if day != 'all':
         day_i = DAYS.index(day)
         df = df[df.day_of_week == day_i]
         day = day.title()
-        
+
     summary(city.title(), month, day, df)
-    
+
     question_divider(start_time)
-    
+
     return df
 
-    
 def time_stats(df):
     """
     Displays statistics on the most frequent times of travel.
@@ -182,7 +181,7 @@ def time_stats(df):
     print('Most Common Starting hour:   {}{}'.format(common_hour_read, meridiem))
 
     question_divider(start_time)
-    
+
 def station_stats(df):
     """
     Displays statistics on the most popular stations and trip.
@@ -193,7 +192,7 @@ def station_stats(df):
     # display most commonly used start station
     start_station = df['Start Station'].value_counts().idxmax()
     print('Most Common Start Station:   ' ,start_station)
-    
+
     # display most commonly used end station
     end_station = df['End Station'].value_counts().idxmax()
     print('Most Common End Station:     ', end_station)
@@ -220,7 +219,7 @@ def trip_duration_stats(df):
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
     weeks, days = divmod(days, 7)
-    
+
     print('The total travel time is:    ', total_travel_time, 'seconds')
     print('                                approx. {} days {} hours {} minutes'.format(days, hours, minutes))
 
@@ -230,7 +229,7 @@ def trip_duration_stats(df):
     hr, min = divmod(min, 60)
     print('The average travel time is:  ', average_travel, 'seconds')
     print('                                approx. {} hours, {} minutes'.format(hours,minutes))
-    
+
     question_divider(start_time)
 
 def user_stats(df):
@@ -259,11 +258,10 @@ def user_stats(df):
         print('Most Common: ', int(df['Birth Year'].value_counts().idxmax()))
     else:
         print("\nYear of Birth: No data available")
-    
+
     question_divider(start_time)
-    
+
 def display_raw_data(df):
-    
     """
     Asks if the user would like to see some lines of data from the filtered dataset.
     Displays 5 (show_rows) lines, then asks if they would like to see 5 more.
