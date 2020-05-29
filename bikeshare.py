@@ -44,7 +44,7 @@ def get_month():
             month = MONTHS[int(month) - 1]
             break
         else:
-            print("I'm sorry, the month you picked is not in this list. Please pick from the above list.")
+            print("I'm sorry, the month you picked is not in this list.")
             continue
     return month
 
@@ -63,7 +63,7 @@ def get_day():
             day = DAYS[int(day) - 1]
             break
         else:
-            print("I'm sorry, the day you picked is not in this list. Please pick from the above list.")
+            print("I'm sorry, the day you picked is not in this list.")
             continue
     return day
 
